@@ -1,0 +1,15 @@
+services:
+
+  c:
+    build:
+      context: .
+      dockerfile: c.Dockerfile
+    image: c-image
+    user: "1002"
+    stdin_open: true
+    tty: true
+    mem_limit: 256m
+    pids_limit: 100
+    ulimits:
+      cpu: 15
+      fsize: 5000000
