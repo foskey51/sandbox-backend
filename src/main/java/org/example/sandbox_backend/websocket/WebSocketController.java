@@ -1,6 +1,7 @@
 package org.example.sandbox_backend.websocket;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pty4j.PtyProcess;
 import org.example.sandbox_backend.request.CompilerRequestDTO;
 import org.example.sandbox_backend.service.CodeExecService;
 import org.example.sandbox_backend.service.JwtService;
@@ -54,8 +55,35 @@ public class WebSocketController extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-        closeSocket(session, status);
+        PtyProcess proc = (PtyProcess) session.getAttributes().remove("ptyProcess");
+        String containerId = (String) session.getAttributes().remove("containerId");
+        Thread readerThread = (Thread) session.getAttributes().remove("readerThread");
+
+        if (proc != null && proc.isAlive()) {
+            try {
+                proc.getInputStream().close();
+                proc.getOutputStream().close();
+                proc.destroy();
+            } catch (Exception e) {
+                log.warn("Failed to destroy PTY process", e);
+            }
+        }
+
+        if (containerId != null) {
+            boolean removed = codeExecService.destroyContainer(containerId);
+            if (!removed) {
+                log.warn("Container {} could not be destroyed (maybe already removed)", containerId);
+            } else {
+                log.info("Cleaned up resources for session {}", session.getId());
+            }
+        }
+
+        session.getAttributes().remove("ptyProcess");
+        session.getAttributes().remove("containerId");
+        session.getAttributes().remove("readerThread");
     }
+
+
 
     @Override
     public void handleTransportError(WebSocketSession session, Throwable exception) throws Exception {
@@ -64,8 +92,7 @@ public class WebSocketController extends TextWebSocketHandler {
 
     public void closeSocket(WebSocketSession session, CloseStatus status) {
         try {
-            session.close();
-            session.getAttributes().remove("process");
+            session.close(status);
         } catch (Exception e) {
             log.error("Error closing socket: " + e.getMessage());
         }

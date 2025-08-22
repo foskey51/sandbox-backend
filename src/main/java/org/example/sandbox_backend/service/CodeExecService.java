@@ -17,6 +17,7 @@ import org.springframework.web.socket.WebSocketSession;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.regex.Pattern;
@@ -30,7 +31,6 @@ public class CodeExecService {
     public CodeExecService(Language language) {
         this.language = language;
     }
-
     public void startExec(WebSocketSession session, CompilerRequestDTO compilerRequestDTO) throws IOException, InterruptedException {
         if(!isDockerAvailable()){
             log.error("Docker is not available or try running with sudo(linux)");
@@ -47,47 +47,45 @@ public class CodeExecService {
         };
 
         PtyProcess process = new PtyProcessBuilder(cmd).start();
-        // Save process reference
         session.getAttributes().put("ptyProcess", process);
 
-        // Start reading output
         Thread vt = Thread.ofVirtual().start(() -> {
             try {
                 InputStream input = process.getInputStream();
                 byte[] buffer = new byte[1024];
                 int len;
-                while ((len = input.read(buffer)) != -1) {
-                    if (session.isOpen()) {
-                        session.sendMessage(new TextMessage(buffer));
-                    } else {
-                        log.warn("WebSocket session closed. Stopping output thread.");
-                        break;
-                    }
+                while (!Thread.currentThread().isInterrupted() && session.isOpen() && ((len = input.read(buffer)) != -1)) {
+                        session.sendMessage(new TextMessage(new String(buffer, 0, len)));
                 }
                 int exitCode = process.waitFor();
                 if(session.isOpen()) {
                     session.sendMessage(new TextMessage("\n ----- Exited with status "+exitCode+" -----"));
+                }
+                if(!destroyContainer(containerId)){
+                    log.error("Container with id "+containerId+" could not be destroyed.");
                 }
                 session.close(CloseStatus.NORMAL);
             } catch (Exception e) {
                 log.error("startExec: error while reading process output", e);
             }
         });
+        session.getAttributes().put("readerThread", vt);
     }
 
 
-    public void handleExec(WebSocketSession session, TextMessage textMessage) throws IOException, InterruptedException {
-        PtyProcess process = (PtyProcess) session.getAttributes().get("ptyProcess");
 
+    public void handleExec(WebSocketSession session, TextMessage textMessage) throws IOException {
+        PtyProcess process = (PtyProcess) session.getAttributes().get("ptyProcess");
         try {
             OutputStream output = process.getOutputStream();
-            output.write(textMessage.asBytes());
+            String data = textMessage.getPayload();
+            output.write(data.getBytes(StandardCharsets.UTF_8));
             output.flush();
         } catch (Exception e) {
             log.error("handleExec: " + e.getMessage());
         }
-
     }
+
 
     public String getContainerId(CompilerRequestDTO compilerRequestDTO) throws IOException, InterruptedException {
         ProcessBuilder processBuilder = new ProcessBuilder("sudo", "docker", "run", "--rm", "-d", compilerRequestDTO.language().trim() + "-image");
@@ -106,7 +104,12 @@ public class CodeExecService {
 
         String command = String.format("echo '%s' | base64 -d > App%s", base64Code, extension);
 
-        ProcessBuilder processBuilder = new ProcessBuilder("sudo", "docker", "exec", "-i", containerId, "sh", "-c", command);
+        String[] cmd = {
+                "sudo", "docker", "exec", "-i", containerId,
+                "sh", "-c", "stty -echo; " + command
+        };
+
+        ProcessBuilder processBuilder = new ProcessBuilder(cmd);
 
         Process process = processBuilder.start();
         int exitCode = process.waitFor();
@@ -132,6 +135,19 @@ public class CodeExecService {
             return exitCode == 0;
         } catch (IOException | InterruptedException e) {
             System.err.print("Docker availability check failed "+ e);
+            return false;
+        }
+    }
+
+    public boolean destroyContainer(String containerId) {
+        try {
+            ProcessBuilder pb = new ProcessBuilder("docker", "rm", "-f", containerId);
+            pb.redirectErrorStream(true);
+            Process process = pb.start();
+            int exitCode = process.waitFor();
+            return exitCode == 0;
+        } catch (IOException | InterruptedException e) {
+            System.err.print("Error destroying the container "+ e);
             return false;
         }
     }
