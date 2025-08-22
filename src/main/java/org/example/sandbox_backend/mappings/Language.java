@@ -19,7 +19,7 @@ public class Language {
             .put("python", ".py")
             .put("go", ".go")
             .put("php", ".php")
-            .put("c#", ".cs")
+            .put("csharp", ".cs")
             .build();
 
     Map<String, String> execCommand = new HashMap<String, String>() {{
@@ -29,9 +29,9 @@ public class Language {
         put("java", "javac App.java && stdbuf -o0 java App");
         put("rust", "rustc App.rs -o App && stdbuf -o0 ./App");
         put("python", "stdbuf -o0 python3 App.py");
-        put("go", "stdbuf -o0 go run App.go");
+        put("go", "go build -o App App.go && stdbuf -o0 ./App");
         put("php", "stdbuf -o0 php App.php");
-        put("c#", "mcs App.cs -out:App.exe && stdbuf -o0 mono App.exe");
+        put("csharp", "mcs App.cs -out:App.exe && stdbuf -o0 mono App.exe");
     }};
 
 
