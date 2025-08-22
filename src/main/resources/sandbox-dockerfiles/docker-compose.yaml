@@ -1,10 +1,121 @@
 services:
-
   c:
     build:
       context: .
       dockerfile: c.Dockerfile
     image: c-image
+    user: "1002"
+    stdin_open: true
+    tty: true
+    mem_limit: 256m
+    pids_limit: 100
+    ulimits:
+      cpu: 15
+      fsize: 5000000
+
+  cpp:
+    build:
+      context: .
+      dockerfile: cpp.Dockerfile
+    image: cpp-image
+    user: "1002"
+    stdin_open: true
+    tty: true
+    mem_limit: 256m
+    pids_limit: 100
+    ulimits:
+      cpu: 15
+      fsize: 5000000
+
+  javascript:
+    build:
+      context: .
+      dockerfile: javascript.Dockerfile
+    image: javascript-image
+    user: "1002"
+    stdin_open: true
+    tty: true
+    mem_limit: 256m
+    pids_limit: 100
+    ulimits:
+      cpu: 15
+      fsize: 5000000
+
+  java:
+    build:
+      context: .
+      dockerfile: java.Dockerfile
+    image: java-image
+    user: "1002"
+    stdin_open: true
+    tty: true
+    mem_limit: 256m
+    pids_limit: 100
+    ulimits:
+      cpu: 15
+      fsize: 5000000
+
+  rust:
+    build:
+      context: .
+      dockerfile: rust.Dockerfile
+    image: rust-image
+    user: "1002"
+    stdin_open: true
+    tty: true
+    mem_limit: 256m
+    pids_limit: 100
+    ulimits:
+      cpu: 15
+      fsize: 5000000
+
+  python:
+    build:
+      context: .
+      dockerfile: python.Dockerfile
+    image: python-image
+    user: "1002"
+    stdin_open: true
+    tty: true
+    mem_limit: 256m
+    pids_limit: 100
+    ulimits:
+      cpu: 15
+      fsize: 5000000
+
+  go:
+    build:
+      context: .
+      dockerfile: go.Dockerfile
+    image: go-image
+    user: "1002"
+    stdin_open: true
+    tty: true
+    mem_limit: 256m
+    pids_limit: 100
+    ulimits:
+      cpu: 15
+      fsize: 5000000
+
+  php:
+    build:
+      context: .
+      dockerfile: php.Dockerfile
+    image: php-image
+    user: "1002"
+    stdin_open: true
+    tty: true
+    mem_limit: 256m
+    pids_limit: 100
+    ulimits:
+      cpu: 15
+      fsize: 5000000
+
+  csharp:
+    build:
+      context: .
+      dockerfile: csharp.Dockerfile
+    image: csharp-image
     user: "1002"
     stdin_open: true
     tty: true
