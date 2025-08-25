@@ -88,7 +88,19 @@ public class CodeExecService {
 
 
     public String getContainerId(CompilerRequestDTO compilerRequestDTO) throws IOException, InterruptedException {
-        ProcessBuilder processBuilder = new ProcessBuilder("sudo", "docker", "run", "--rm", "-d", compilerRequestDTO.language().trim() + "-image");
+        String languageTrimmed = compilerRequestDTO.language().trim();
+        ProcessBuilder processBuilder = new ProcessBuilder(
+                "sudo", "docker", "run",
+                "--rm", "-d",
+                "--user", "1002",                  // Non-root user
+                "--memory", "256m",                // Memory limit
+                "--pids-limit", "100",             // Max PIDs (prevents fork bombs)
+                "--ulimit", "cpu=15",              // CPU time limit
+                "--ulimit", "nproc=100",           // Max processes per user
+                "--ulimit", "fsize=5000000",       // Max file size
+                "--security-opt", "no-new-privileges:true", // No privilege escalation
+                languageTrimmed + "-image"
+        );
         Process process = processBuilder.start();
         String containerId = new String(process.getInputStream().readAllBytes()).trim();
         int exitCode = process.waitFor();
