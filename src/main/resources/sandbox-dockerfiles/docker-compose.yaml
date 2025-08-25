@@ -11,7 +11,10 @@ services:
     pids_limit: 100
     ulimits:
       cpu: 15
+      nproc: 100
       fsize: 5000000
+    security_opt:
+      - no-new-privileges:true
 
   cpp:
     build:
@@ -25,7 +28,10 @@ services:
     pids_limit: 100
     ulimits:
       cpu: 15
+      nproc: 100
       fsize: 5000000
+    security_opt:
+      - no-new-privileges:true
 
   javascript:
     build:
@@ -39,7 +45,10 @@ services:
     pids_limit: 100
     ulimits:
       cpu: 15
+      nproc: 100
       fsize: 5000000
+    security_opt:
+      - no-new-privileges:true
 
   java:
     build:
@@ -53,7 +62,10 @@ services:
     pids_limit: 100
     ulimits:
       cpu: 15
+      nproc: 100
       fsize: 5000000
+    security_opt:
+      - no-new-privileges:true
 
   rust:
     build:
@@ -67,7 +79,10 @@ services:
     pids_limit: 100
     ulimits:
       cpu: 15
+      nproc: 100
       fsize: 5000000
+    security_opt:
+      - no-new-privileges:true
 
   python:
     build:
@@ -81,7 +96,10 @@ services:
     pids_limit: 100
     ulimits:
       cpu: 15
+      nproc: 100
       fsize: 5000000
+    security_opt:
+      - no-new-privileges:true
 
   go:
     build:
@@ -95,7 +113,10 @@ services:
     pids_limit: 100
     ulimits:
       cpu: 15
+      nproc: 100
       fsize: 5000000
+    security_opt:
+      - no-new-privileges:true
 
   php:
     build:
@@ -109,7 +130,10 @@ services:
     pids_limit: 100
     ulimits:
       cpu: 15
+      nproc: 100
       fsize: 5000000
+    security_opt:
+      - no-new-privileges:true
 
   csharp:
     build:
@@ -123,4 +147,7 @@ services:
     pids_limit: 100
     ulimits:
       cpu: 15
+      nproc: 100
       fsize: 5000000
+    security_opt:
+      - no-new-privileges:true
