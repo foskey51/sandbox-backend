@@ -1,0 +1,164 @@
+services:
+  c:
+    build:
+      context: .
+      dockerfile: c.Dockerfile
+    image: c-image
+    user: "1002"
+    stdin_open: true
+    tty: true
+    mem_limit: 256m
+    pids_limit: 100
+    ulimits:
+      cpu: 15
+      nproc: 100
+      fsize: 5000000
+    security_opt:
+      - no-new-privileges:true
+
+  cpp:
+    build:
+      context: .
+      dockerfile: cpp.Dockerfile
+    image: cpp-image
+    user: "1002"
+    stdin_open: true
+    tty: true
+    mem_limit: 256m
+    pids_limit: 100
+    ulimits:
+      cpu: 15
+      nproc: 100
+      fsize: 5000000
+    security_opt:
+      - no-new-privileges:true
+
+  javascript:
+    build:
+      context: .
+      dockerfile: javascript.Dockerfile
+    image: javascript-image
+    user: "1002"
+    stdin_open: true
+    tty: true
+    mem_limit: 256m
+    pids_limit: 100
+    ulimits:
+      cpu: 15
+      nproc: 100
+      fsize: 5000000
+    security_opt:
+      - no-new-privileges:true
+
+  java:
+    build:
+      context: .
+      dockerfile: java.Dockerfile
+    image: java-image
+    user: "1002"
+    stdin_open: true
+    tty: true
+    mem_limit: 256m
+    pids_limit: 100
+    ulimits:
+      cpu: 15
+      nproc: 100
+      fsize: 5000000
+    security_opt:
+      - no-new-privileges:true
+
+  rust:
+    build:
+      context: .
+      dockerfile: rust.Dockerfile
+    image: rust-image
+    user: "1002"
+    stdin_open: true
+    tty: true
+    mem_limit: 256m
+    pids_limit: 100
+    ulimits:
+      cpu: 15
+      nproc: 100
+      fsize: 5000000
+    security_opt:
+      - no-new-privileges:true
+
+  python:
+    build:
+      context: .
+      dockerfile: python.Dockerfile
+    image: python-image
+    user: "1002"
+    stdin_open: true
+    tty: true
+    mem_limit: 256m
+    pids_limit: 100
+    ulimits:
+      cpu: 15
+      nproc: 100
+      fsize: 5000000
+    security_opt:
+      - no-new-privileges:true
+
+  go:
+    build:
+      context: .
+      dockerfile: go.Dockerfile
+    image: go-image
+    user: "1002"
+    stdin_open: true
+    tty: true
+    mem_limit: 256m
+    pids_limit: 100
+    ulimits:
+      cpu: 15
+      nproc: 100
+      fsize: 5000000
+    security_opt:
+      - no-new-privileges:true
+
+  php:
+    build:
+      context: .
+      dockerfile: php.Dockerfile
+    image: php-image
+    user: "1002"
+    stdin_open: true
+    tty: true
+    mem_limit: 256m
+    pids_limit: 100
+    ulimits:
+      cpu: 15
+      nproc: 100
+      fsize: 5000000
+    security_opt:
+      - no-new-privileges:true
+
+  csharp:
+    build:
+      context: .
+      dockerfile: csharp.Dockerfile
+    image: csharp-image
+    user: "1002"
+    stdin_open: true
+    tty: true
+    mem_limit: 256m
+    pids_limit: 100
+    ulimits:
+      cpu: 15
+      nproc: 100
+      fsize: 5000000
+    security_opt:
+      - no-new-privileges:true
+
+  no-vnc:
+    build:
+      context: .
+      dockerfile: ubuntu-novnc.Dockerfile
+    image: ubuntu-novnc
+    stdin_open: true
+    tty: true
+    mem_limit: 500m
+    ulimits:
+      cpu: 600
