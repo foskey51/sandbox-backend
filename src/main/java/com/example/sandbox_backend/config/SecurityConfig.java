@@ -39,7 +39,8 @@ public class SecurityConfig {
                                 "/api/v1/auth/signup",
                                 "/api/v1/auth/logout",
                                 "/api/v1/auth/login",
-                                "/api/v1/auth/refresh"
+                                "/api/v1/auth/refresh",
+                                "/api/v1/no-vnc/"
                         ).permitAll()
                         .anyExchange().authenticated()
                 )
@@ -54,6 +55,7 @@ public class SecurityConfig {
                 "http://localhost:4173",
                 "https://localhost:4173",
                 "http://localhost:5173",
+                "file://",
                 "https://localhost:5173"
         ));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
