@@ -38,20 +38,22 @@ public class AuthController {
                             .httpOnly(true)
                             .secure(true)
                             .path("/")
-                            .maxAge(Duration.ofMinutes(refresh_expires_days))
-                            .sameSite("Lax")
+                            .maxAge(Duration.ofMinutes(access_expires_minutes))
+                            .sameSite("None")
                             .build();
 
                     ResponseCookie refreshCookie = ResponseCookie.from("refresh_token", authResponse.getRefreshToken())
                             .httpOnly(true)
                             .secure(true)
                             .path("/")
-                            .maxAge(Duration.ofMinutes(access_expires_minutes))
-                            .sameSite("Lax")
+                            .maxAge(Duration.ofDays(refresh_expires_days))
+                            .sameSite("None")
                             .build();
                     return ResponseEntity.ok()
-                            .header(HttpHeaders.SET_COOKIE, accessCookie.toString())
-                            .header(HttpHeaders.SET_COOKIE, refreshCookie.toString())
+                            .headers(h -> {
+                                h.add(HttpHeaders.SET_COOKIE, accessCookie.toString());
+                                h.add(HttpHeaders.SET_COOKIE, refreshCookie.toString());
+                            })
                             .body("Login successful");
                 })
                 .onErrorResume(e -> Mono.just(ResponseEntity.badRequest().body("Login failed")));
@@ -66,19 +68,21 @@ public class AuthController {
                             .secure(true)
                             .path("/")
                             .maxAge(Duration.ofMinutes(access_expires_minutes))
-                            .sameSite("Lax")
+                            .sameSite("None")
                             .build();
 
                     ResponseCookie refreshCookie = ResponseCookie.from("refresh_token", authResponse.getRefreshToken())
                             .httpOnly(true)
                             .secure(true)
                             .path("/")
-                            .maxAge(Duration.ofMinutes(refresh_expires_days))
-                            .sameSite("Lax")
+                            .maxAge(Duration.ofDays(refresh_expires_days))
+                            .sameSite("None")
                             .build();
                     return ResponseEntity.ok()
-                            .header(HttpHeaders.SET_COOKIE, accessCookie.toString())
-                            .header(HttpHeaders.SET_COOKIE, refreshCookie.toString())
+                            .headers(h -> {
+                                h.add(HttpHeaders.SET_COOKIE, accessCookie.toString());
+                                h.add(HttpHeaders.SET_COOKIE, refreshCookie.toString());
+                            })
                             .body("Refresh successful");
                 })
                 .onErrorResume(e -> Mono.just(ResponseEntity.badRequest().body("Failed to refresh token")));
