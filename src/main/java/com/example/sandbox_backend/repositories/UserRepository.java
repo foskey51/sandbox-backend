@@ -1,4 +1,4 @@
-package com.example.sandbox_backend.Repositories;
+package com.example.sandbox_backend.repositories;
 
 import com.example.sandbox_backend.entities.User;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;

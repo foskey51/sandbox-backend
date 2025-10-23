@@ -1,13 +1,11 @@
 package com.example.sandbox_backend.controller;
 
-import com.example.sandbox_backend.Service.NoVncExecService;
+import com.example.sandbox_backend.services.NoVncExecService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import java.net.URL;
 
 @RestController
 @RequestMapping("/api/v1/no-vnc")

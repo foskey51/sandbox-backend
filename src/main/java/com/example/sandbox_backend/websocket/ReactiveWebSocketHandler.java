@@ -1,6 +1,6 @@
 package com.example.sandbox_backend.websocket;
 
-import com.example.sandbox_backend.Service.CodeExecService;
+import com.example.sandbox_backend.services.CodeExecService;
 import com.example.sandbox_backend.dto.CompilerRequest;
 import com.example.sandbox_backend.util.ValidationUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -1,7 +1,7 @@
-package com.example.sandbox_backend.Service;
+package com.example.sandbox_backend.services;
 
-import com.example.sandbox_backend.Repositories.RefreshTokenRepository;
-import com.example.sandbox_backend.Repositories.UserRepository;
+import com.example.sandbox_backend.repositories.RefreshTokenRepository;
+import com.example.sandbox_backend.repositories.UserRepository;
 import com.example.sandbox_backend.dto.AuthRequest;
 import com.example.sandbox_backend.dto.AuthResponse;
 import com.example.sandbox_backend.dto.SignupRequest;

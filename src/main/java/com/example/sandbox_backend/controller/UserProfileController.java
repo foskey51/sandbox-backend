@@ -1,6 +1,6 @@
 package com.example.sandbox_backend.controller;
 
-import com.example.sandbox_backend.Service.UserProfileService;
+import com.example.sandbox_backend.services.UserProfileService;
 import com.example.sandbox_backend.dto.UserProfileRequestDTO;
 import com.example.sandbox_backend.entities.CustomUserDetails;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Mono;
 
-import java.util.UUID;
 import java.util.function.Function;
 
 @RestController

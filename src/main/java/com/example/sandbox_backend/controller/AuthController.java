@@ -1,6 +1,6 @@
 package com.example.sandbox_backend.controller;
 
-import com.example.sandbox_backend.Service.AuthService;
+import com.example.sandbox_backend.services.AuthService;
 import com.example.sandbox_backend.dto.AuthRequest;
 import com.example.sandbox_backend.dto.SignupRequest;
 import lombok.RequiredArgsConstructor;

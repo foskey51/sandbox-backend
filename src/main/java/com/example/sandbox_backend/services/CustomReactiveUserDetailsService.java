@@ -1,6 +1,6 @@
-package com.example.sandbox_backend.Service;
+package com.example.sandbox_backend.services;
 
-import com.example.sandbox_backend.Repositories.UserRepository;
+import com.example.sandbox_backend.repositories.UserRepository;
 import com.example.sandbox_backend.entities.CustomUserDetails;
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
 import org.springframework.security.core.userdetails.UserDetails;

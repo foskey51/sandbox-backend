@@ -1,6 +1,6 @@
 package com.example.sandbox_backend.filter;
 
-import com.example.sandbox_backend.Repositories.UserRepository;
+import com.example.sandbox_backend.repositories.UserRepository;
 import com.example.sandbox_backend.entities.CustomUserDetails;
 import com.example.sandbox_backend.util.JwtUtil;
 import lombok.RequiredArgsConstructor;

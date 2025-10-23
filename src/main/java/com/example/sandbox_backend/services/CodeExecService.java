@@ -1,4 +1,4 @@
-package com.example.sandbox_backend.Service;
+package com.example.sandbox_backend.services;
 
 import com.example.sandbox_backend.dto.CompilerRequest;
 import com.example.sandbox_backend.mappings.Language;
