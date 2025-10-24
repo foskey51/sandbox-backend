@@ -1,0 +1,13 @@
+version: "3.9"
+
+services:
+  sandbox_backend:
+    build:
+      context: .
+      dockerfile: sandbox_backend.Dockerfile
+    image: sandbox-backend
+    privileged: true
+    volumes:
+      - /var/lib/docker
+    stdin_open: true
+    tty: true
